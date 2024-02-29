@@ -11,8 +11,6 @@
 #define ENDSCATTER mem.ExecuteReadScatter( handle ); \
 				   mem.CloseScatterHandle( handle );
 
-std::vector<basePlayer> playersList;
-
 cheatFunction::cheatFunction( int time, std::function<void( )> func )
 {
 	msSleep = time;
@@ -67,6 +65,8 @@ std::shared_ptr<cheatFunction> cachePlayers = std::make_shared<cheatFunction>( 1
 
 	uintptr_t listEntry, player, networkedPlayer, playerPawn, weaponData, playerNameData;
 	basePlayer playerEntity;
+
+	std::vector<basePlayer> playersList;
 
 	// GOD MY EYES PLEASE
 	for ( int i = 1; i < 64; i++ )
@@ -156,8 +156,6 @@ std::shared_ptr<cheatFunction> cachePlayers = std::make_shared<cheatFunction>( 1
 
 	cheat::players.clear( );
 	cheat::players.assign( playersList.begin( ), playersList.end( ) );
-
-	playersList.clear(  );
 } );
 
 std::shared_ptr<cheatFunction> updatePlayerPos = std::make_shared<cheatFunction>( 10, [ ] {

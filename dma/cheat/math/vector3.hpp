@@ -1,4 +1,8 @@
 #pragma once
+#define M_PI 3.14159265358979323846264338327950288
+
+#include "../../menu.h"
+
 #ifndef _VECTOR_ESP_
 #define _VECTOR_ESP_
 #include <numbers>
@@ -67,20 +71,76 @@ struct vector3
 		return std::sqrt( x * x + y * y );
 	}
 
+	vector3& operator+=( const vector3& other )
+	{
+		x += other.x;
+		y += other.y;
+		z += other.z;
+		return *this;
+	}
+
 	constexpr const bool IsZero( ) const noexcept
 	{
 		return x == 0.f && y == 0.f && z == 0.f;
 	}
 
-	float calculate_distance( const vector3& point ) const {
+	float calculateDistance( const vector3& point ) {
 		float dx = point.x - x;
 		float dy = point.y - y;
-		float dz = point.z - z;
 
-		return std::sqrt( dx * dx + dy * dy + dz * dz );
+		return sqrt( pow( dx, 2 ) + pow( dy, 2 ) );
 	}
 
 	// struct data
 	float x, y, z;
 };
 #endif
+
+namespace math
+{
+	inline vector3 aimbotCalculation( vector3 bonePos, vector3 localPos, vector3 viewAngle, int fFlags )
+	{
+		float yaw, pitch, distance, fov, deltaX, deltaY, deltaZ;
+
+		deltaX = bonePos.x - localPos.x;
+		deltaY = bonePos.y - localPos.y;
+
+		if ( fFlags == 65667 )
+			deltaZ = ( bonePos.z - 40.f ) - localPos.z;
+		else
+			deltaZ = ( bonePos.z - 60.f ) - localPos.z;
+
+		distance = sqrt( pow( deltaX, 2 ) + pow( deltaY, 2 ) );
+		yaw = atan2f( deltaY, deltaX ) * 180 / M_PI - viewAngle.y;
+		pitch = -atan( deltaZ / distance ) * 180 / M_PI - viewAngle.x;
+
+		vector3 aimPos{ pitch, yaw, 0.0f };
+
+		return aimPos;
+	}
+
+	inline float fovCalculation( vector3 aimPos, float distance, float aimbotFov )
+	{
+		float fov = sqrt( pow( aimPos.x, 2 ) + pow( aimPos.y, 2 ) );
+
+		fov -= ( distance * -1 ) / ( aimbotFov + distance );
+
+		return fov * 6;
+	}
+
+	inline vector3 calculateScreenOffset( float angleX, float angleY, float previousX, float previousY, float fov )
+	{
+		int width = menu::screenSize.x;
+		int height = menu::screenSize.y;
+
+		float fovRad = fov * ( M_PI / 180.0f );
+
+		double thetaX = ( angleX - previousX ) * ( M_PI / 180.0f );
+		double offsetX = ( width * tan( thetaX ) ) / ( 2 * tan( fovRad / 2 ) );
+
+		double thetaY = ( angleY - previousY ) * ( M_PI / 180.0f );
+		double offsetY = ( height * tan( thetaY ) ) / ( 2 * tan( fovRad / 2 ) );
+
+		return vector3( -offsetX, offsetY, 0.0f );
+	}
+}

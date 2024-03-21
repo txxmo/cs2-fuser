@@ -1,17 +1,60 @@
 #include "../cheat.hpp"
 
+void renderBones( std::shared_ptr<sdk::basePlayer> player )
+{
+	for ( int i = 0; i < sizeof( boneConnections ) / sizeof( boneConnections[ 0 ] ); ++i )
+	{
+		int bone1 = boneConnections[ i ].bone1;
+		int bone2 = boneConnections[ i ].bone2;
+
+		vector3 VectorBone1 = player->boneList( )[ bone1 ].position;
+		vector3 VectorBone2 = player->boneList( )[ bone2 ].position;
+
+		vector3 b1 = cheat::worldToScreen( &VectorBone1 );
+		vector3 b2 = cheat::worldToScreen( &VectorBone2 );
+
+		draw->AddLine( { b1.x, b1.y }, { b2.x, b2.y }, ImColor( 171, 216, 237 ) );
+	}
+}
+
+bool isInsideScreen( const vector3& screenPos )
+{
+	return screenPos.x >= 0 && screenPos.x <= menu::screenSize.x && screenPos.y >= 0 && screenPos.y <= menu::screenSize.y;
+}
+
+bool isEqual( const vector3& v1, const vector3& v2 )
+{
+	const float epsilon = 0.0001f;
+	return std::abs( v1.x - v2.x ) < epsilon && std::abs( v1.y - v2.y ) < epsilon && std::abs( v1.z - v2.z ) < epsilon;
+}
+
 void cheat::renderESP( )
 {
 	for ( auto player : cheat::players )
 	{
-		if ( player.origin.x == global::localPos.x && player.origin.y == global::localPos.y && player.origin.z == global::localPos.z )
+		if ( player == global::localPlayer )
 			continue;
 
-		vector3 screenPos = cheat::worldToScreen( &player.origin );
+		if ( !player->isAlive( ) || player->getTeam( ) == global::localPlayer->getTeam( ) || player->boneList( ).empty( ) )
+			continue;
+
+		vector3 playerPos = player->getPosition( );
+		if ( isEqual( playerPos, global::localPos ) )
+			continue;
+
+		vector3 screenPos = cheat::worldToScreen( &playerPos );
+		if ( !isInsideScreen( screenPos ) )
+			continue;
+
+		vector3 headPos = cheat::worldToScreen( &player->boneList( )[ BONEINDEX::head ].position );
 		
 		if ( screenPos.z >= 0.01f )
 		{
-			draw->AddText( { screenPos.x, screenPos.y }, ImColor( 255, 255, 255 ), player.name.c_str( ) );
+			draw->AddText( { screenPos.x, screenPos.y }, ImColor( 255, 255, 255 ), player->getName( ).c_str( ) );
+
+			draw->AddCircle( { headPos.x, headPos.y }, 4, ImColor( 171, 216, 237 ), 30 );
+
+			renderBones( player );
 		}
 	}
 }

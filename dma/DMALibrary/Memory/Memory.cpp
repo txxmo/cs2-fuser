@@ -313,7 +313,7 @@ PEB Memory::GetProcessPeb()
 	if (info.win.vaPEB)
 	{
 		LOG("[+] Found process PEB ptr at 0x%p\n", info.win.vaPEB);
-		return Read<PEB>(info.win.vaPEB);
+		return read<PEB>(info.win.vaPEB);
 	}
 	LOG("[!] Failed to find the processes PEB\n");
 	return { };

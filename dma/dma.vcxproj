@@ -149,6 +149,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="cheat\cheat.cpp" />
+    <ClCompile Include="cheat\classes\baseplayer.cpp" />
+    <ClCompile Include="cheat\classes\localplayer.cpp" />
+    <ClCompile Include="cheat\features\aimbot.cpp" />
     <ClCompile Include="cheat\features\esp.cpp" />
     <ClCompile Include="DMALibrary\Memory\Memory.cpp" />
     <ClCompile Include="DMALibrary\Memory\Shellcode.cpp" />
@@ -166,6 +169,8 @@
   <ItemGroup>
     <ClInclude Include="cheat\cheat.hpp" />
     <ClInclude Include="cheat\classes\baseplayer.hpp" />
+    <ClInclude Include="cheat\classes\localplayer.hpp" />
+    <ClInclude Include="cheat\kmbox.hpp" />
     <ClInclude Include="cheat\math\vector3.hpp" />
     <ClInclude Include="cheat\offsets.hpp" />
     <ClInclude Include="DMALibrary\framework.h" />

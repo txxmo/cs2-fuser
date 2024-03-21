@@ -5,8 +5,10 @@
 
 #include "math/vector3.hpp"
 #include "classes/baseplayer.hpp"
+#include "classes/localplayer.hpp"
 
 #include <functional>
+#include <memory>
 
 struct viewMatrix {
 	float* operator[ ]( int index ) {
@@ -22,13 +24,15 @@ namespace cheat
 	vector3 worldToScreen( vector3* v );
 	void renderESP( );
 
-	inline std::vector<basePlayer> players = { };
+	void updateAimbot( );
+
+	extern std::vector< std::shared_ptr<sdk::basePlayer> > players;
 }
 
 // this is where we will store all of the found stuff.
 namespace global
 {
-	inline uintptr_t localPlayer;
+	extern std::shared_ptr<sdk::basePlayer> localPlayer;
 	inline uintptr_t localPawn;
 	inline uintptr_t baseClient;
 
@@ -43,13 +47,19 @@ namespace global
 class cheatFunction
 {
 	int msSleep = 0;
+	
 	std::function<void( )> function;
+	
 	int lastExecution;
+
 public:
+	
 	cheatFunction( int time, std::function<void( )>func );
+	
 	void execute( );
 };
 
-extern std::shared_ptr<cheatFunction> updatePlayerPos;
+extern std::shared_ptr<cheatFunction> updatePlayers;
+extern std::shared_ptr<cheatFunction> updatePlayerBones;
 extern std::shared_ptr<cheatFunction> cachePlayers;
 extern std::shared_ptr<cheatFunction> updateViewMatrix;

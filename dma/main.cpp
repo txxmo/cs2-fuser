@@ -11,6 +11,7 @@
 
 // cheat includes
 #include "cheat/cheat.hpp"
+#include "cheat/kmbox.hpp"
 
 // Data
 static LPDIRECT3D9              g_pD3D = NULL;
@@ -22,14 +23,27 @@ bool CreateDeviceD3D( HWND hWnd );
 void CleanupDeviceD3D( );
 void ResetDevice( );
 LRESULT WINAPI WndProc( HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam );
+void windowCreate( );
+
+int main( )
+{
+    SetConsoleTitleA( "TOMO DMA PROJECT" );
+
+    if ( !kmBox::init( ) )
+        return EXIT_FAILURE;
+
+    cheat::init( );
+
+    windowCreate( );
+}
 
 // Main code
-int main( int, char** )
+void windowCreate( )
 {
     // Create application window
-    WNDCLASSEX wc = { sizeof( WNDCLASSEX ), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle( NULL ), NULL, NULL, NULL, NULL, _T( "booget external" ), NULL };
+    WNDCLASSEX wc = { sizeof( WNDCLASSEX ), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle( NULL ), NULL, NULL, NULL, NULL, _T( "CS2 FUSER" ), NULL };
     ::RegisterClassEx( &wc );
-    HWND hwnd = ::CreateWindow( wc.lpszClassName, _T( "booget external" ), WS_OVERLAPPEDWINDOW, 0, 0, 50, 50, NULL, NULL, wc.hInstance, NULL );
+    HWND hwnd = ::CreateWindow( wc.lpszClassName, _T( "CS2 FUSER" ), WS_OVERLAPPEDWINDOW, 0, 0, 50, 50, NULL, NULL, wc.hInstance, NULL );
 
     // Hide console window
     ::ShowWindow( ::GetConsoleWindow( ), SW_SHOW );
@@ -39,7 +53,7 @@ int main( int, char** )
     {
         CleanupDeviceD3D( );
         ::UnregisterClass( wc.lpszClassName, wc.hInstance );
-        return 1;
+        return;
     }
 
     // Show the window
@@ -66,8 +80,6 @@ int main( int, char** )
     ImGui_ImplDX9_Init( g_pd3dDevice );
 
     bool done = false;
-
-    cheat::init( );
 
     while ( !done )
     {
@@ -121,7 +133,7 @@ int main( int, char** )
     ::DestroyWindow( hwnd );
     ::UnregisterClass( wc.lpszClassName, wc.hInstance );
 
-    return 0;
+    return;
 }
 
 

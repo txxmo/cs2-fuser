@@ -210,7 +210,7 @@ public:
 	* @return the value read from the process
 	*/
 	template <typename T>
-	T Read(void* address)
+	T read(void* address)
 	{
 		T buffer { };
 		memset(&buffer, 0, sizeof(T));
@@ -220,9 +220,9 @@ public:
 	}
 
 	template <typename T>
-	T Read(uint64_t address)
+	T read(uint64_t address)
 	{
-		return Read<T>(reinterpret_cast<void*>(address));
+		return read<T>(reinterpret_cast<void*>(address));
 	}
 
 	/**
@@ -232,7 +232,7 @@ public:
 	* @return the value read from the process
 	*/
 	template <typename T>
-	T Read(void* address, int pid)
+	T read(void* address, int pid)
 	{
 		T buffer { };
 		memset(&buffer, 0, sizeof(T));
@@ -242,7 +242,7 @@ public:
 	}
 
 	template <typename T>
-	T Read(uint64_t address, int pid)
+	T read(uint64_t address, int pid)
 	{
 		return Read<T>(reinterpret_cast<void*>(address), pid);
 	}

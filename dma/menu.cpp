@@ -25,7 +25,8 @@ namespace visualsWindowSettings
     bool titleBar = true;
     bool forceTopMost = false;
     bool enableDragging = false;
-    
+    bool debugWindow = true;
+
     bool initilized = false;
 
     ImGuiWindowFlags windowFlags = ImGuiWindowFlags_None;
@@ -129,21 +130,48 @@ void menu::render()
 
                     updateViewMatrix->execute( );
                     cachePlayers->execute( );
-                    updatePlayerPos->execute( );
+                    updatePlayerBones->execute( );
+                    updatePlayers->execute( );
                     cheat::renderESP( );
 
-                    // putting this in brackets for scope
-                    std::string localPlayerString = "localPlayer: " + std::to_string( global::localPlayer );
-                    std::string localPawnString = "localPawn: " + std::to_string( global::localPawn );
-                    std::string localTeamString = "localTeam: " + std::to_string( global::localTeam );
-
-                    draw->AddText( { 10, 50 }, IM_COL32( 0, 0, 255, 255 ), localPlayerString.c_str( ) );
-                    draw->AddText( { 10, 65 }, IM_COL32( 0, 0, 255, 255 ), localPawnString.c_str( ) );
-                    draw->AddText( { 10, 80 }, IM_COL32( 0, 0, 255, 255 ), localTeamString.c_str( ) );
+                    cheat::updateAimbot( );
                 }
             }
             ImGui::End( );
             ImGui::PopStyleColor( );
+        }
+
+        ImGui::SetNextWindowSize( { 700, 300 } );
+        if ( visualsWindowSettings::debugWindow )
+        {
+            ImGui::Begin( "crappy debug window", &global::active, iw.window_flags );
+            {
+                ImGui::Text( "Name" );
+                ImGui::SameLine( 150 );
+                ImGui::Text( "Team" );
+                ImGui::SameLine( 300 );
+                ImGui::Text( "Health" );
+                ImGui::SameLine( 450 );
+                ImGui::Text( "Pawn Address" );
+                ImGui::SameLine( 600 );
+                ImGui::Text( "Address" );
+
+                ImGui::Separator( );
+
+                for ( const auto& player : cheat::players ) {
+                    ImGui::Text( player->getName( ).c_str( ) );
+                    ImGui::SameLine( 150 );
+                    ImGui::Text( "%d", player->getTeam( ) );
+                    ImGui::SameLine( 300 );
+                    ImGui::Text( "%d", player->getHealth( ) );
+                    //ImGui::SameLine( 450 );
+                    //ImGui::Text( "%#llx", static_cast< uint64_t >( player->getPawn( ) ) ); // Assuming uintptr_t is 64-bit
+                    ImGui::SameLine( 600 );
+                    ImGui::Text( "%#llx", static_cast< uint64_t >( player->getAddress( ) ) ); // Assuming uintptr_t is 64-bit
+                }
+
+                ImGui::End( );
+            }
         }
     }
     else

@@ -2,6 +2,7 @@
 
 #include "../globals.h"
 #include "../menu.h"
+#include "config.hpp"
 
 #include "math/vector3.hpp"
 #include "classes/baseplayer.hpp"
@@ -25,6 +26,8 @@ namespace cheat
 	void renderESP( );
 
 	void updateAimbot( );
+
+	inline bool connected = false;
 
 	extern std::vector< std::shared_ptr<sdk::basePlayer> > players;
 }

@@ -191,18 +191,8 @@ std::shared_ptr<cheatFunction> updateViewMatrix = std::make_shared<cheatFunction
 
 	uintptr_t viewMatrixAddress = global::baseClient + offsets::dwViewMatrix;
 
-	global::viewM = mem.read<viewMatrix>( viewMatrixAddress );
+	global::viewM = mem.Read<viewMatrix>( viewMatrixAddress );
 } );
-
-void update( )
-{
-	while ( true )
-	{
-		updateViewMatrix->execute( );
-		cachePlayers->execute( );
-		updatePlayers->execute( );
-	}
-}
 
 void cheat::init( )
 {
@@ -211,6 +201,9 @@ void cheat::init( )
 
 	global::baseClient = mem.getBaseAddress( "client.dll" );
 	if ( !global::baseClient )
+		return;
+
+	if ( !mem.GetKeyboard( )->InitKeyboard( ) )
 		return;
 
 	preInit( );

@@ -101,6 +101,11 @@ bool basePlayer::isValid( )
 	return this->address != 0;
 }
 
+std::uintptr_t basePlayer::getPawn( )
+{
+	return this->pawn;
+}
+
 int basePlayer::getTeam( )
 {
 	return this->team;

@@ -144,3 +144,11 @@ namespace math
 		return vector3( -offsetX, offsetY, 0.0f );
 	}
 }
+
+struct vector2
+{
+	float x;
+	float y;
+
+	vector2( float _x, float _y ) : x( _x ), y( _y ) {}
+};

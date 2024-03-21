@@ -35,7 +35,10 @@ void cheat::renderESP( )
 		if ( player == global::localPlayer )
 			continue;
 
-		if ( !player->isAlive( ) || player->getTeam( ) == global::localPlayer->getTeam( ) || player->boneList( ).empty( ) )
+		if ( !player->isAlive( ) || player->boneList( ).empty( ) )
+			continue;
+
+		if ( player->getTeam( ) == global::localPlayer->getTeam( ) && config.teamCheck )
 			continue;
 
 		vector3 playerPos = player->getPosition( );
@@ -50,11 +53,14 @@ void cheat::renderESP( )
 		
 		if ( screenPos.z >= 0.01f )
 		{
-			draw->AddText( { screenPos.x, screenPos.y }, ImColor( 255, 255, 255 ), player->getName( ).c_str( ) );
+			if ( config.nameESP )
+				draw->AddText( { screenPos.x, screenPos.y }, ImColor( 255, 255, 255 ), player->getName( ).c_str( ) );
 
-			draw->AddCircle( { headPos.x, headPos.y }, 4, ImColor( 171, 216, 237 ), 30 );
+			if ( config.headESP )
+				draw->AddCircle( { headPos.x, headPos.y }, 4, ImColor( 171, 216, 237 ), 30 );
 
-			renderBones( player );
+			if ( config.skeletonESP )
+				renderBones( player );
 		}
 	}
 }

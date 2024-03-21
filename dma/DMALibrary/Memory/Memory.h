@@ -1,5 +1,7 @@
 #pragma once
 #include "../pch.h"
+#include "InputManager.h"
+#include "Registry.h"
 #include "Shellcode.h"
 #include "../nt/structs.h"
 
@@ -44,6 +46,8 @@ private:
 	bool SetFPGA();
 
 	//shared pointer
+	std::shared_ptr<c_keys> key;
+	c_registry registry;
 	c_shellcode shellcode;
 
 	/*this->registry_ptr = std::make_shared<c_registry>(*this);
@@ -56,6 +60,18 @@ public:
 	 */
 	Memory();
 	~Memory();
+
+	/**
+	* @brief Gets the registry object
+	* @return registry class
+	*/
+	c_registry GetRegistry( ) { return registry; }
+
+	/**
+	* @brief Gets the key object
+	* @return key class
+	*/
+	c_keys* GetKeyboard( ) { return key.get( ); }
 
 	/**
 	* @brief Gets the shellcode object
@@ -94,6 +110,8 @@ public:
 	* \return all the module names of the process 
 	*/
 	std::vector<std::string> GetModuleList(std::string process_name);
+
+	bool IsValidPointer( uint64_t Pointer );
 
 	/**
 	* \brief Gets the process information
@@ -210,7 +228,7 @@ public:
 	* @return the value read from the process
 	*/
 	template <typename T>
-	T read(void* address)
+	T Read(void* address)
 	{
 		T buffer { };
 		memset(&buffer, 0, sizeof(T));
@@ -220,9 +238,9 @@ public:
 	}
 
 	template <typename T>
-	T read(uint64_t address)
+	T Read(uint64_t address)
 	{
-		return read<T>(reinterpret_cast<void*>(address));
+		return Read<T>(reinterpret_cast<void*>(address));
 	}
 
 	/**
@@ -232,7 +250,7 @@ public:
 	* @return the value read from the process
 	*/
 	template <typename T>
-	T read(void* address, int pid)
+	T Read(void* address, int pid)
 	{
 		T buffer { };
 		memset(&buffer, 0, sizeof(T));
@@ -242,7 +260,7 @@ public:
 	}
 
 	template <typename T>
-	T read(uint64_t address, int pid)
+	T Read(uint64_t address, int pid)
 	{
 		return Read<T>(reinterpret_cast<void*>(address), pid);
 	}
@@ -281,6 +299,7 @@ public:
 
 	/*the FPGA handle*/
 	VMM_HANDLE vHandle;
+	uint64_t baseAddress;
 };
 
 inline Memory mem;

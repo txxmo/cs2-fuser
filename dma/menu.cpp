@@ -12,7 +12,7 @@
 class initWindow {
 public:
     const char* window_title = "Tomo DMA External";
-    ImVec2 window_size{ 400, 400 };
+    ImVec2 window_size{ 310, 300 };
     
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize;
 } iw;
@@ -21,8 +21,8 @@ namespace visualsWindowSettings
 {
     bool isFullscreen = false;
     bool isVisible = false;
-    bool resize = true;
-    bool titleBar = true;
+    bool resize = false;
+    bool titleBar = false;
     bool forceTopMost = false;
     bool enableDragging = false;
     bool debugWindow = true;
@@ -53,7 +53,52 @@ void menu::render()
         ImGui::SetNextWindowBgAlpha(1.0f);
         ImGui::Begin(iw.window_title, &global::active, iw.window_flags);
         {
+            static const char* aimbotKeys[ ] = { "mouse 1", "mouse 2", "mouse 3", "mouse 4", "mouse 5" };
+            ImGui::Text( "aimbot key" );
+            if ( ImGui::BeginCombo( "##aimbotKeyCombo", aimbotKeys[ config.aimbotKey ] ) ) // ##aimbotKeyCombo is a unique identifier for the combo box
+            {
+                for ( int i = 0; i < IM_ARRAYSIZE( aimbotKeys ); i++ )
+                {
+                    const bool isSelected = ( config.aimbotKey == i );
+                    if ( ImGui::Selectable( aimbotKeys[ i ], isSelected ) )
+                        config.aimbotKey = i;
+
+                    // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    if ( isSelected )
+                        ImGui::SetItemDefaultFocus( );
+                }
+
+                ImGui::EndCombo( );
+            }
+
+            static const char* aimbotBones[ ] = { "head", "neck", "chest", "pelvis" };
+            ImGui::Text( "aimbot bone" );
+            if ( ImGui::BeginCombo( "##aimbotBoneCombo", aimbotBones[ config.aimbotBone ] ) ) // ##aimbotKeyCombo is a unique identifier for the combo box
+            {
+                for ( int i = 0; i < IM_ARRAYSIZE( aimbotBones ); i++ )
+                {
+                    const bool isSelected = ( config.aimbotBone == i );
+                    if ( ImGui::Selectable( aimbotBones[ i ], isSelected ) )
+                        config.aimbotBone = i;
+
+                    // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    if ( isSelected )
+                        ImGui::SetItemDefaultFocus( );
+                }
+
+                ImGui::EndCombo( );
+            }
+
+            ImGui::SliderInt( "aimbot speed", &config.aimbotSpeed, 1, 30 );
+            ImGui::SliderInt( "aimbot smooth", &config.aimbotSmooth, 1, 30 );
+            ImGui::SliderInt( "aimbot fov", &config.aimbotFov, 0, 600 );
+
+            ImGui::Checkbox( "team check", &config.teamCheck );
+
             ImGui::Checkbox( "show esp window", &visualsWindowSettings::isVisible );
+            ImGui::Checkbox( "name esp", &config.nameESP );
+            ImGui::Checkbox( "skeleton esp", &config.skeletonESP );
+            ImGui::Checkbox( "head circle", &config.headESP );
         }
         ImGui::End();
 
@@ -130,7 +175,6 @@ void menu::render()
 
                     updateViewMatrix->execute( );
                     cachePlayers->execute( );
-                    updatePlayerBones->execute( );
                     updatePlayers->execute( );
                     cheat::renderESP( );
 
@@ -164,8 +208,8 @@ void menu::render()
                     ImGui::Text( "%d", player->getTeam( ) );
                     ImGui::SameLine( 300 );
                     ImGui::Text( "%d", player->getHealth( ) );
-                    //ImGui::SameLine( 450 );
-                    //ImGui::Text( "%#llx", static_cast< uint64_t >( player->getPawn( ) ) ); // Assuming uintptr_t is 64-bit
+                    ImGui::SameLine( 450 );
+                    ImGui::Text( "%#llx", static_cast< uint64_t >( player->getPawn( ) ) ); // Assuming uintptr_t is 64-bit
                     ImGui::SameLine( 600 );
                     ImGui::Text( "%#llx", static_cast< uint64_t >( player->getAddress( ) ) ); // Assuming uintptr_t is 64-bit
                 }

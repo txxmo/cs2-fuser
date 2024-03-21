@@ -4,10 +4,10 @@ using namespace sdk;
 
 localPlayer::localPlayer( )
 {
-	this->address = mem.read<uintptr_t>( global::baseClient + address );
+	this->address = mem.Read<uintptr_t>( global::baseClient + address );
 	printf( "[LocalPlayer] LocalPlayer: 0x%llX\n", address );
 
-	this->pawn = mem.read<uintptr_t>( global::baseClient + pawn );
+	this->pawn = mem.Read<uintptr_t>( global::baseClient + pawn );
 	printf( "[LocalPlayer] LocalPlayerPawn: 0x%llX\n", pawn );
 }
 

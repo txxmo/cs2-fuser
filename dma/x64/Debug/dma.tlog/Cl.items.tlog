@@ -3,7 +3,9 @@ C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\classes\baseplayer.cpp;C:\User
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\classes\localplayer.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\localplayer.obj
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\aimbot.obj
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\esp.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\esp.obj
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\Memory\InputManager.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\InputManager.obj
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\Memory\Memory.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\Memory.obj
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\Memory\Registry.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\Registry.obj
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\Memory\Shellcode.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\Shellcode.obj
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\pch.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\pch.obj
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\ImGui\imgui.cpp;C:\Users\tom\Documents\GitHub\cs2-fuser\dma\x64\Debug\imgui.obj

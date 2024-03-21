@@ -19,6 +19,8 @@ Memory::Memory()
 		THROW("[!] Could not load a library\n");
 	}
 
+	this->key = std::make_shared<c_keys>( );
+
 	LOG("Successfully loaded libraries!\n");
 }
 
@@ -224,6 +226,9 @@ reinit:
 		return false;
 	}
 
+	// TOMO
+	this->baseAddress = this->current_process.base_address;
+
 	this->current_process.base_size = GetBaseSize(process_name);
 	if (!this->current_process.base_size)
 	{
@@ -313,7 +318,7 @@ PEB Memory::GetProcessPeb()
 	if (info.win.vaPEB)
 	{
 		LOG("[+] Found process PEB ptr at 0x%p\n", info.win.vaPEB);
-		return read<PEB>(info.win.vaPEB);
+		return Read<PEB>(info.win.vaPEB);
 	}
 	LOG("[!] Failed to find the processes PEB\n");
 	return { };
@@ -793,4 +798,8 @@ void Memory::ExecuteWriteScatter(VMMDLL_SCATTER_HANDLE handle, int pid)
 	{
 		LOG("[-] Failed to clear Scatter\n");
 	}
+}
+
+bool Memory::IsValidPointer( uint64_t Pointer ) {
+	return Pointer > 0x00010000 && Pointer < 0x7FFFFFFEFFFF;
 }

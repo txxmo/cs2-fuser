@@ -14,6 +14,9 @@ namespace kmBox
     bool init( );
     void sendMove( int nX, int nY );
 
+    void sendMove( int x, int y, int curve );
+
+
     inline std::string FindPort( const std::string& targetDescription ) {
         HDEVINFO hDevInfo = SetupDiGetClassDevsA( &GUID_DEVCLASS_PORTS, 0, 0, DIGCF_PRESENT );
         if ( hDevInfo == INVALID_HANDLE_VALUE ) return "";

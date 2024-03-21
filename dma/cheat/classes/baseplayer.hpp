@@ -141,6 +141,7 @@ namespace sdk
 		int getTeam( );
 
 		void updatePawn( VMMDLL_SCATTER_HANDLE handle );
+		std::uintptr_t getPawn( );
 		std::uintptr_t getAddress( );
 		
 		void updateGameScene( VMMDLL_SCATTER_HANDLE handle, std::uintptr_t override );

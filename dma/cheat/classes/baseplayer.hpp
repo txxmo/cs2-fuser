@@ -108,6 +108,9 @@ namespace sdk
 
 		boneJointData bonesArray[ 30 ];
 
+		uintptr_t spottedState;
+		bool spotted;
+
 	public:
 		basePlayer( std::uintptr_t address, VMMDLL_SCATTER_HANDLE handle );
 
@@ -119,6 +122,8 @@ namespace sdk
 
 		void cachePawn( VMMDLL_SCATTER_HANDLE handle );
 
+		void updateSpotted( VMMDLL_SCATTER_HANDLE handle );
+		bool getSpotted( );
 
 		vector3 getPosition( );
 
@@ -139,6 +144,7 @@ namespace sdk
 		vector3 getViewAngles( );
 
 		int getTeam( );
+		std::string getTeamString( );
 
 		void updatePawn( VMMDLL_SCATTER_HANDLE handle );
 		std::uintptr_t getPawn( );
@@ -161,6 +167,5 @@ namespace sdk
 		std::uintptr_t prePawn;
 
 		std::uintptr_t networkedData;
-
 	};
 }

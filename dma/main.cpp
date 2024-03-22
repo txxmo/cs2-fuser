@@ -29,12 +29,11 @@ int main( )
 {
     SetConsoleTitleA( "TOMO DMA PROJECT" );
 
-    if ( !kmBox::init( ) )
-        return EXIT_FAILURE;
-
+    std::thread( windowCreate ).detach( );
+    
     cheat::init( );
 
-    windowCreate( );
+    //windowCreate( ); // debug
 }
 
 // Main code
@@ -59,6 +58,9 @@ void windowCreate( )
     // Show the window
     ::ShowWindow( hwnd, SW_HIDE );
     ::UpdateWindow( hwnd );
+
+    menu::screenSize.x = GetSystemMetrics( SM_CXSCREEN );
+    menu::screenSize.y = GetSystemMetrics( SM_CYSCREEN );
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION( );
@@ -100,6 +102,7 @@ void windowCreate( )
         ImGui::NewFrame( );
         {
             menu::render( );
+            cheat::renderESP( );
         }
         ImGui::EndFrame( );
         g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, FALSE );
@@ -134,6 +137,44 @@ void windowCreate( )
     ::UnregisterClass( wc.lpszClassName, wc.hInstance );
 
     return;
+}
+
+
+void cheat::renderMenu( )
+{
+    ImGuiIO& io = ImGui::GetIO( ); ( void )io;
+
+    // Start the Dear ImGui frame
+    ImGui_ImplDX9_NewFrame( );
+    ImGui_ImplWin32_NewFrame( );
+
+    ImGui::NewFrame( );
+    {
+        menu::render( );
+    }
+    ImGui::EndFrame( );
+
+    g_pd3dDevice->SetRenderState( D3DRS_ZENABLE, FALSE );
+    g_pd3dDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, FALSE );
+    g_pd3dDevice->SetRenderState( D3DRS_SCISSORTESTENABLE, FALSE );
+    g_pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, NULL, 1.0f, 0 );
+    if ( g_pd3dDevice->BeginScene( ) >= 0 )
+    {
+        ImGui::Render( );
+        ImGui_ImplDX9_RenderDrawData( ImGui::GetDrawData( ) );
+        g_pd3dDevice->EndScene( );
+    }
+
+    if ( io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable )
+    {
+        ImGui::UpdatePlatformWindows( );
+        ImGui::RenderPlatformWindowsDefault( );
+    }
+
+    HRESULT result = g_pd3dDevice->Present( NULL, NULL, NULL, NULL );
+
+    if ( result == D3DERR_DEVICELOST && g_pd3dDevice->TestCooperativeLevel( ) == D3DERR_DEVICENOTRESET )
+        ResetDevice( );
 }
 
 

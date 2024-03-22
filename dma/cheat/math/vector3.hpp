@@ -143,6 +143,17 @@ namespace math
 
 		return vector3( -offsetX, offsetY, 0.0f );
 	}
+
+	inline bool isInsideScreen( const vector3& screenPos )
+	{
+		return screenPos.x >= 0 && screenPos.x <= menu::screenSize.x && screenPos.y >= 0 && screenPos.y <= menu::screenSize.y;
+	}
+
+	inline bool isEqual( const vector3& v1, const vector3& v2 )
+	{
+		const float epsilon = 0.0001f;
+		return std::abs( v1.x - v2.x ) < epsilon && std::abs( v1.y - v2.y ) < epsilon && std::abs( v1.z - v2.z ) < epsilon;
+	}
 }
 
 struct vector2
@@ -151,4 +162,5 @@ struct vector2
 	float y;
 
 	vector2( float _x, float _y ) : x( _x ), y( _y ) {}
+	vector2() {}
 };

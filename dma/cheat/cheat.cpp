@@ -1,5 +1,6 @@
 #include "cheat.hpp"
 #include "offsets.hpp"
+#include "kmbox.hpp"
 
 #include <thread>
 #include <chrono>
@@ -13,6 +14,7 @@
 
 std::shared_ptr<sdk::basePlayer> global::localPlayer = nullptr;
 std::vector<std::shared_ptr<sdk::basePlayer>> cheat::players = { };
+std::vector< std::uintptr_t > cheat::friends = { };
 
 cheatFunction::cheatFunction( int time, std::function<void( )> func )
 {
@@ -22,7 +24,6 @@ cheatFunction::cheatFunction( int time, std::function<void( )> func )
 
 void cheatFunction::execute( )
 {
-
 	if ( GetTickCount64( ) - lastExecution > msSleep )
 	{
 		function( );
@@ -44,7 +45,18 @@ void preInit( )
 	ENDSCATTER
 }
 
-std::shared_ptr<cheatFunction> cachePlayers = std::make_shared<cheatFunction>( 25, [ ] {
+bool cheat::isFriend( std::uintptr_t address )
+{
+	for ( const auto& friendAddress : cheat::friends ) {
+		if ( friendAddress == address ) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+std::shared_ptr<cheatFunction> cachePlayers = std::make_shared<cheatFunction>( 20, [ ] {
 
 	std::lock_guard<std::mutex> lock( global::cacheMutex );
 
@@ -85,6 +97,9 @@ std::shared_ptr<cheatFunction> cachePlayers = std::make_shared<cheatFunction>( 2
 	for ( int i = 0; i < playerList.size( ); i++ )
 	{
 		if ( addressList[ i ] == NULL )
+			continue;
+
+		if ( addressList[ i ] == global::localPlayer->getAddress( ) )
 			continue;
 
 		tempPlayerList.push_back( std::make_shared<sdk::basePlayer>( addressList[ i ], handle ) );
@@ -152,34 +167,45 @@ std::shared_ptr<cheatFunction> cachePlayers = std::make_shared<cheatFunction>( 2
 		player->updateBoneData( );
 	}
 
+	handle = mem.CreateScatterHandle( );
+
+	for ( int i = 0; i < tempPlayerList.size( ); i++ )
+	{
+		std::shared_ptr<sdk::basePlayer> player = tempPlayerList[ i ];
+		player->updatePosition( handle );
+		player->updateHealth( handle );
+	}
+
+	ENDSCATTER
+
 	cheat::players = tempPlayerList;
+
+	if ( !cheat::players.empty( ) )
+		cheat::connected = true;
+	else
+		cheat::connected = false;
 } );
 
-std::shared_ptr<cheatFunction> updatePlayers = std::make_shared<cheatFunction>( 25, [ ] {
+// so I would be using this, however I need to figure out how to cache above and run this, while keeping bones updated all the time.
+// for some reason bones are wonky.
+std::shared_ptr<cheatFunction> updatePlayers = std::make_shared<cheatFunction>( 10, [ ] {
 	
 	std::lock_guard<std::mutex> lock( global::cacheMutex );
 
 	auto handle = mem.CreateScatterHandle( );
 
 	global::localPlayer->updatePosition( handle );
-	global::localPlayer->updateFlags( handle );
 
 	for ( auto player : cheat::players )
 	{
-		if ( !player->isValid( ) )
+		if ( !player && !player->isValid( ) )
 			continue;
-		
+
 		player->updatePosition( handle );
 		player->updateHealth( handle );
 	}
 
 	ENDSCATTER
-} );
-
-std::shared_ptr<cheatFunction> updatePlayerBones = std::make_shared<cheatFunction>( 10, [ ] {
-
-	std::lock_guard<std::mutex> lock( global::cacheMutex );
-
 } );
 
 std::shared_ptr<cheatFunction> updateViewMatrix = std::make_shared<cheatFunction>( 5, [ ] {
@@ -197,14 +223,55 @@ std::shared_ptr<cheatFunction> updateViewMatrix = std::make_shared<cheatFunction
 void cheat::init( )
 {
 	if ( !mem.Init( "cs2.exe", true, false ) )
+	{
+		printf( "[DMA] failed to get process" );
 		return;
+	}
 
 	global::baseClient = mem.getBaseAddress( "client.dll" );
 	if ( !global::baseClient )
+	{
+		printf( "[DMA] failed to get client.dll" );
 		return;
+	}
 
 	if ( !mem.GetKeyboard( )->InitKeyboard( ) )
+	{
+		printf( "[DMA] failed to get keyboard" );
 		return;
+	}
+
+	if ( !kmBox::init( ) )
+	{
+		printf( "[KMBOX] failed to get kmbox B+" );
+		return;
+	}
 
 	preInit( );
+
+	constexpr std::chrono::milliseconds cooldownDuration( 250 );
+
+	std::chrono::steady_clock::time_point lastActivationTime = std::chrono::steady_clock::now( );
+
+	while ( true )
+	{
+		auto currentTime = std::chrono::steady_clock::now( );
+
+		if ( mem.GetKeyboard( )->IsKeyDown( VK_INSERT ) || GetAsyncKeyState( VK_INSERT ) ) 
+		{
+			auto timeElapsed = std::chrono::duration_cast< std::chrono::milliseconds >( currentTime - lastActivationTime );
+
+			if ( timeElapsed >= cooldownDuration ) 
+			{
+				global::active = !global::active;
+
+				lastActivationTime = currentTime;
+			}
+		}
+
+		updateViewMatrix->execute( );
+		cachePlayers->execute( );
+		//updatePlayers->execute();
+		updateAimbot->execute( );
+	}
 }

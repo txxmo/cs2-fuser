@@ -53,6 +53,16 @@ void basePlayer::updatePosition( VMMDLL_SCATTER_HANDLE handle )
 	mem.AddScatterReadRequest( handle, this->pawn + 0x127C, reinterpret_cast< void* >( &this->origin ), sizeof( vector3 ) );
 }
 
+void basePlayer::updateSpotted( VMMDLL_SCATTER_HANDLE handle )
+{
+	mem.AddScatterReadRequest( handle, this->pawn + 0x1698 + 0x08, reinterpret_cast< void* >( &this->spottedState ), sizeof( std::uintptr_t ) );
+}
+
+bool basePlayer::getSpotted( )
+{
+	return this->spottedState = global::localPlayer->getPawn( );
+}
+
 void basePlayer::updateHealth( VMMDLL_SCATTER_HANDLE handle )
 {
 	mem.AddScatterReadRequest( handle, this->pawn + 0x334, reinterpret_cast< void* >( &this->health ), sizeof( int ) );
@@ -109,6 +119,27 @@ std::uintptr_t basePlayer::getPawn( )
 int basePlayer::getTeam( )
 {
 	return this->team;
+}
+
+std::string basePlayer::getTeamString( )
+{
+	switch ( this->team )
+	{
+	case 0:
+		return "N/A";
+		break;
+	case 1:
+		return "N/A";
+		break;
+	case 2:
+		return "T";
+		break;
+	case 3:
+		return "CT";
+		break;
+	}
+
+	return "N/A";
 }
 
 void basePlayer::updatePawn( VMMDLL_SCATTER_HANDLE handle )

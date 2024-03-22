@@ -18,6 +18,7 @@ bool kmBox::init( )
 	}
 
 	printf( "[KMBOX] created successfully!\n" );
+    cheat::kmbBoxConnected = true;
 
 	return true;
 }
@@ -36,87 +37,78 @@ void kmBox::sendMove( int x, int y, int curve )
     SendCommand( hSerial, commandStream.str( ) );
 }
 
-void aimAtPos( float x, float y, int aimSpeed, int smoothAmount, int curve )
+void aimAtPos( vector2 targetPos, int aimSpeed, int smoothAmount, int curve )
 {
+    // Initialize target coordinates
     float TargetX = 0;
     float TargetY = 0;
 
+    // Calculate screen center coordinates
     int ScreenCenterX = menu::screenSize.x / 2;
     int ScreenCenterY = menu::screenSize.y / 2;
 
-    bool Smooth = true;
-
+    // Ensure aimSpeed and smoothAmount are not zero
     if ( aimSpeed == 0 ) aimSpeed = 1;
     if ( smoothAmount == 0 ) smoothAmount = 1;
 
-    if ( x != 0 )
+    // Calculate target offset along X-axis
+    if ( targetPos.x != 0 )
     {
-        if ( x > ScreenCenterX )
+        if ( targetPos.x > ScreenCenterX )
         {
-            TargetX = -( ScreenCenterX - x );
+            TargetX = -( ScreenCenterX - targetPos.x );
             TargetX /= aimSpeed;
             if ( TargetX + ScreenCenterX > ScreenCenterX * 2 ) TargetX = 0;
         }
-
-        if ( x < ScreenCenterX )
+        else if ( targetPos.x < ScreenCenterX )
         {
-            TargetX = x - ScreenCenterX;
+            TargetX = targetPos.x - ScreenCenterX;
             TargetX /= aimSpeed;
             if ( TargetX + ScreenCenterX < 0 ) TargetX = 0;
         }
     }
 
-    if ( y != 0 )
+    // Calculate target offset along Y-axis
+    if ( targetPos.y != 0 )
     {
-        if ( y > ScreenCenterY )
+        if ( targetPos.y > ScreenCenterY )
         {
-            TargetY = -( ScreenCenterY - y );
+            TargetY = -( ScreenCenterY - targetPos.y );
             TargetY /= aimSpeed;
             if ( TargetY + ScreenCenterY > ScreenCenterY * 2 ) TargetY = 0;
         }
-
-        if ( y < ScreenCenterY )
+        else if ( targetPos.y < ScreenCenterY )
         {
-            TargetY = y - ScreenCenterY;
+            TargetY = targetPos.y - ScreenCenterY;
             TargetY /= aimSpeed;
             if ( TargetY + ScreenCenterY < 0 ) TargetY = 0;
         }
     }
 
-    if ( !Smooth )
+    // Check if aiming should be smooth
+    if ( smoothAmount > 1 )
     {
-        mouse_event( 0x0001, ( UINT )( TargetX ), ( UINT )( TargetY ), NULL, NULL );
-        return;
-    }
-    else
-    {
+        // Calculate smooth movement
         TargetX /= smoothAmount;
         TargetY /= smoothAmount;
+
+        // Ensure minimum movement threshold
         if ( abs( TargetX ) < 1 )
         {
-            if ( TargetX > 0 )
-            {
-                TargetX = 1;
-            }
-            if ( TargetX < 0 )
-            {
-                TargetX = -1;
-            }
+            TargetX = TargetX > 0 ? 1 : -1;
         }
         if ( abs( TargetY ) < 1 )
         {
-            if ( TargetY > 0 )
-            {
-                TargetY = 1;
-            }
-            if ( TargetY < 0 )
-            {
-                TargetY = -1;
-            }
+            TargetY = TargetY > 0 ? 1 : -1;
         }
 
-        kmBox::sendMove( ( int )TargetX, ( int )TargetY, curve );
-        return;
+        // Send mouse movement using a smooth method
+        kmBox::sendMove( ( int )TargetX, ( int )TargetY );
+    }
+    else
+    {
+        // Send direct mouse movement without smoothing
+        kmBox::sendMove( ( int )TargetX, ( int )TargetY );
     }
 }
 
@@ -173,65 +165,90 @@ BONEINDEX getBone( )
     return BONEINDEX::head;
 }
 
-void cheat::updateAimbot( )
-{
-    constexpr float MAX_DISTANCE = 99999.f;
-    int FOV_HALF = config.aimbotFov / 2; // Assuming FOV is 200 degrees total
+std::shared_ptr<cheatFunction> updateAimbot = std::make_shared<cheatFunction>( 5, [ ] {
+
+    std::lock_guard<std::mutex> lock( global::cacheMutex );
+
+    std::shared_ptr < sdk::basePlayer > targetPlayer;
+        
+    float MAX_DISTANCE = 99999.f;
+    int FOV_HALF = config.aimbotFov / 2;
+    int fovHalf = FOV_HALF;
 
     vector2 aimSpot( 0, 0 );
 
     vector2 center = { menu::screenSize.x / 2, menu::screenSize.y / 2 };
 
-    int fovHalf = FOV_HALF;
+    vector2 xPos = { center.x - FOV_HALF, center.x + FOV_HALF };
+    
+    vector2 yPos = { center.y - FOV_HALF, center.y + FOV_HALF };
 
-    vector2 xPos = { center.x - fovHalf, center.x + fovHalf };
-    vector2 yPos = { center.y - fovHalf, center.y + fovHalf };
+    if ( !global::localPlayer )
+        return;
+
+    if ( !global::localPlayer->isAlive( ) )
+        return;
 
     int aimbotKey = getKey( );
-
-    draw->AddCircle( { ( float )center.x, ( float )center.y }, FOV_HALF, ImColor( 255, 255, 255 ) );
-
-    if ( mem.GetKeyboard()->IsKeyDown( aimbotKey ) )
+    if ( mem.GetKeyboard( )->IsKeyDown( aimbotKey ) ) 
     {
         float bestDistance = MAX_DISTANCE;
         bool targetFound = false;
 
-        for ( auto player : cheat::players )
+        for ( auto player : cheat::players ) 
         {
             if ( !player->isValid( ) )
                 continue;
 
-            if ( player == global::localPlayer )
+            if ( player == global::localPlayer || player->getHealth( ) <= 0 || player->getHealth( ) > 100 || player->boneList( ).empty( ) )
                 continue;
 
-            if ( !player->isAlive( ) || player->boneList( ).empty( ) )
+            if ( config.teamCheck && player->getTeam( ) == global::localPlayer->getTeam( ) )
                 continue;
 
-            if ( player->getTeam( ) == global::localPlayer->getTeam( ) && config.teamCheck )
+            if ( targetFound )
+                continue;
+
+            bool isFriend = cheat::isFriend( player->getAddress( ) );
+            if ( isFriend )
                 continue;
 
             vector3 playerPos = player->boneList( )[ getBone( ) ].position;
             vector3 pos = cheat::worldToScreen( &playerPos );
-            int x = pos.x;
-            int y = pos.y;
+            if ( !math::isInsideScreen( pos ) )
+                continue;
 
-            if ( x > xPos.x && x < xPos.y && y > yPos.x && y < yPos.y )
+            if ( pos.z >= 0.01f )
             {
-                double dist = distance( center.x, center.y, x, y );
+                int x = pos.x;
+                int y = pos.y;
 
-                if ( dist < bestDistance )
+                if ( x >= xPos.x && x <= xPos.y && y >= yPos.x && y <= yPos.y )
                 {
-                    bestDistance = dist;
-                    aimSpot = vector2( x, y );
-                    targetFound = true;
+                    double dist = distance( center.x, center.y, x, y );
+                    bool isObstructed = false; // Implement line-of-sight check
+
+                    if ( !isObstructed && dist < bestDistance ) {
+                        bestDistance = dist;
+                        aimSpot = vector2( x, y );
+                        targetPlayer = player;
+                        targetFound = true;
+                    }
                 }
             }
         }
 
-        if ( bestDistance < MAX_DISTANCE && targetFound )
+        // aim at the target if found
+        if ( bestDistance < MAX_DISTANCE && targetFound ) 
         {
-            aimAtPos( aimSpot.x, aimSpot.y, config.aimbotSpeed, config.aimbotSmooth, config.aimbotCurve );
-            draw->AddRectFilled( { aimSpot.x, aimSpot.y }, { aimSpot.x + 6, aimSpot.y + 6 }, ImColor( 125, 125, 255 ) );
+            aimAtPos( aimSpot, config.aimbotSpeed, config.aimbotSmooth, config.aimbotCurve );
+            cheat::aimPoint = aimSpot;
+            cheat::targetPlayer = targetPlayer;
         }
     }
-}
+    else
+    {
+        cheat::targetPlayer = NULL;
+        cheat::aimPoint = { 0, 0 };
+    }
+} );

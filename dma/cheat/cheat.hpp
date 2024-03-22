@@ -24,24 +24,31 @@ namespace cheat
 	void init( );
 	vector3 worldToScreen( vector3* v );
 	void renderESP( );
+	void renderMenu( );
 
-	void updateAimbot( );
+	inline vector2 aimPoint;
+	inline std::shared_ptr<sdk::basePlayer> targetPlayer;
 
 	inline bool connected = false;
+	inline bool kmbBoxConnected = false;
 
 	extern std::vector< std::shared_ptr<sdk::basePlayer> > players;
+	extern std::vector< std::uintptr_t > friends;
+
+	bool isFriend( std::uintptr_t address );
+
 }
 
 // this is where we will store all of the found stuff.
 namespace global
 {
 	extern std::shared_ptr<sdk::basePlayer> localPlayer;
-	inline uintptr_t localPawn;
-	inline uintptr_t baseClient;
+	inline std::uintptr_t localPawn;
+	inline std::uintptr_t baseClient;
 
 	inline int localTeam;
 
-	inline uintptr_t entityList;
+	inline std::uintptr_t entityList;
 	inline viewMatrix viewM;
 
 	inline vector3 localPos;
@@ -63,6 +70,7 @@ public:
 };
 
 extern std::shared_ptr<cheatFunction> updatePlayers;
-extern std::shared_ptr<cheatFunction> updatePlayerBones;
 extern std::shared_ptr<cheatFunction> cachePlayers;
 extern std::shared_ptr<cheatFunction> updateViewMatrix;
+
+extern std::shared_ptr<cheatFunction> updateAimbot;

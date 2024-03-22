@@ -13,5 +13,6 @@ dma counter-strike 2 cheat.
 - Team checks
 
 ## image
-![menu ss]([https://github.com/txxmo/cs2-fuser/blob/main/ss/image.png])
+![Image](https://github.com/txxmo/cs2-fuser/raw/main/ss/image.png)
+
 

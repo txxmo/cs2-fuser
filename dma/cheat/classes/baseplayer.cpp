@@ -60,7 +60,7 @@ void basePlayer::updateSpotted( VMMDLL_SCATTER_HANDLE handle )
 
 bool basePlayer::getSpotted( )
 {
-	return this->spottedState & ( 1 << global.misc.localPlayerPawnIndex - 1 );
+	return true;
 }
 
 void basePlayer::updateHealth( VMMDLL_SCATTER_HANDLE handle )

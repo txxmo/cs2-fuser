@@ -1,159 +1,292 @@
-﻿  aimbot.cpp
+﻿  baseplayer.cpp
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(91,14): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(113,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(114,47): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(115,51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(103,31): warning C4101: 'fov': unreferenced local variable
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(124,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(133,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(134,14): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(136,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(144,29): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(144,19): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(122,11): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(122,11):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(489,10): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(489,10):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(498,10): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(498,10):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(392,35): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(392,35):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1454,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1454,25):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1464,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1464,25):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1471,27): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1471,27):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1480,28): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1480,28):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1489,36): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1489,36):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1505,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1505,25):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1515,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1515,25):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1524,26): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1524,26):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1532,31): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1532,31):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1539,28): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1539,28):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1548,28): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1548,28):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1559,26): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1559,26):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1568,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1568,25):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1576,29): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1576,29):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1585,26): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1585,26):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1594,24): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1594,24):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1603,29): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1603,29):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
 C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(2138,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  (compiling source file 'cheat/features/aimbot.cpp')
+  (compiling source file 'cheat/classes/baseplayer.cpp')
   C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(2138,25):
   This member will be ignored by a defaulted constructor or copy/move assignment operator
   
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\kmbox.hpp(91,67): warning C4267: 'argument': conversion from 'size_t' to 'DWORD', possible loss of data
-  (compiling source file 'cheat/features/aimbot.cpp')
+  menu.cpp
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(91,14): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'menu.cpp')
   
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(47,23): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(48,23): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(98,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(102,31): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(223,23): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(224,23): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(228,61): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(228,51): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(232,40): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(233,47): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\features\aimbot.cpp(233,44): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(113,18): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(114,47): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(115,51): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(103,31): warning C4101: 'fov': unreferenced local variable
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(124,13): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(133,13): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(134,14): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(136,16): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(144,29): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\cheat\math\vector3.hpp(144,19): warning C4244: 'argument': conversion from 'double' to 'const float', possible loss of data
+  (compiling source file 'menu.cpp')
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(122,11): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(122,11):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(489,10): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(489,10):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(498,10): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\leechcore.h(498,10):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(392,35): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(392,35):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1454,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1454,25):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1464,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1464,25):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1471,27): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1471,27):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1480,28): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1480,28):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1489,36): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1489,36):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1505,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1505,25):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1515,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1515,25):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1524,26): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1524,26):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1532,31): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1532,31):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1539,28): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1539,28):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1548,28): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1548,28):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1559,26): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1559,26):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1568,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1568,25):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1576,29): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1576,29):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1585,26): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1585,26):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1594,24): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1594,24):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1603,29): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(1603,29):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(2138,25): warning C4200: nonstandard extension used: zero-sized array in struct/union
+  (compiling source file 'menu.cpp')
+  C:\Users\tom\Documents\GitHub\cs2-fuser\dma\DMALibrary\libs\vmmdll.h(2138,25):
+  This member will be ignored by a defaulted constructor or copy/move assignment operator
+  
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\menu.cpp(39,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+C:\Users\tom\Documents\GitHub\cs2-fuser\dma\menu.cpp(40,42): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+  Generating Code...
   dma.vcxproj -> C:\Users\tom\Documents\GitHub\cs2-fuser\x64\Debug\dma.exe

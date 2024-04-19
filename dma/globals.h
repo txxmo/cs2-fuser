@@ -4,7 +4,7 @@
 
 namespace global
 {
-	inline bool active = true;
+	inline bool active = false;
 
 	inline std::mutex cacheMutex;
 }

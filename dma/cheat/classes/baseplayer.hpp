@@ -122,9 +122,6 @@ namespace sdk
 
 		void cachePawn( VMMDLL_SCATTER_HANDLE handle );
 
-		void updateSpotted( VMMDLL_SCATTER_HANDLE handle );
-		bool getSpotted( );
-
 		vector3 getPosition( );
 
 		void updatePosition( VMMDLL_SCATTER_HANDLE handle );
@@ -132,6 +129,9 @@ namespace sdk
 		std::string getName( );
 
 		bool isValid( );
+
+		bool isSpotted( );
+		void updateSpotted( VMMDLL_SCATTER_HANDLE handle );
 
 		bool isAlive( );
 		int getHealth( );

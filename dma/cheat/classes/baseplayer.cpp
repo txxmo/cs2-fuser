@@ -53,16 +53,6 @@ void basePlayer::updatePosition( VMMDLL_SCATTER_HANDLE handle )
 	mem.AddScatterReadRequest( handle, this->pawn + 0x127C, reinterpret_cast< void* >( &this->origin ), sizeof( vector3 ) );
 }
 
-void basePlayer::updateSpotted( VMMDLL_SCATTER_HANDLE handle )
-{
-	mem.AddScatterReadRequest( handle, this->pawn + 0x1698 + 0x08, reinterpret_cast< void* >( &this->spottedState ), sizeof( std::uintptr_t ) );
-}
-
-bool basePlayer::getSpotted( )
-{
-	return true;
-}
-
 void basePlayer::updateHealth( VMMDLL_SCATTER_HANDLE handle )
 {
 	mem.AddScatterReadRequest( handle, this->pawn + 0x334, reinterpret_cast< void* >( &this->health ), sizeof( int ) );
@@ -91,6 +81,16 @@ vector3 basePlayer::getViewAngles( )
 int basePlayer::getHealth( )
 {
 	return this->health;
+}
+
+bool basePlayer::isSpotted( )
+{
+	return this->spotted;
+}
+
+void basePlayer::updateSpotted( VMMDLL_SCATTER_HANDLE handle )
+{
+	this->spotted = mem.Read<bool>( this->pawn + 0x1698 + 0xC );
 }
 
 bool basePlayer::isAlive( )
@@ -185,15 +185,6 @@ void basePlayer::getBoneArrayList( VMMDLL_SCATTER_HANDLE handle, std::uintptr_t 
 
 bool basePlayer::updateBoneData( )
 {
-	if ( !this->address )
-		return false;
-
-	if ( !this->gameSceneNode )
-		return false;
-
-	if ( !this->boneArray )
-		return false;
-
 	if ( !this->bonesArray )
 		return false;
 

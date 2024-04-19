@@ -16,6 +16,8 @@ namespace kmBox
 
     void sendMove( int x, int y, int curve );
 
+    void sendClick( );
+
 
     inline std::string FindPort( const std::string& targetDescription ) {
         HDEVINFO hDevInfo = SetupDiGetClassDevsA( &GUID_DEVCLASS_PORTS, 0, 0, DIGCF_PRESENT );

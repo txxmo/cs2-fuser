@@ -1,22 +1,58 @@
 #pragma once
+#include <vector>
+#include <string>
+#include <filesystem>
 
-inline struct configA
-{
-	bool teamCheck = true; // deathmatch mode
-	bool visCheck = false;
+class Config {
+public:
+    Config( ) noexcept;
+    void load( size_t ) noexcept;
+    void load( std::string name ) noexcept;
+    void save( size_t ) const noexcept;
+    void add( std::string ) noexcept;
+    void remove( size_t ) noexcept;
+    void rename( size_t, std::string ) noexcept;
+    void reset( ) noexcept;
+    void listConfigs( ) noexcept;
+    void createConfigDir( ) const noexcept;
 
-	int aimbotSpeed = 2; // lower = faster
-	int aimbotSmooth = 1;
-	int aimbotCurve = 0;
-	int aimbotFov = 350;
-	int aimbotKey = 0;
-	int aimbotBone = 0;
+    constexpr auto& getConfigs( ) noexcept
+    {
+        return configs;
+    }
 
-	bool drawFov = true;
-	bool drawAimPoint = true;
+    struct Aim {
+        int aimbotSpeed{ 1 }; // lower = faster
+        int aimbotSmooth{ 1 };
+        float aimbotCurve{ 0 };
+        int aimbotFov = { 5 };
+        int aimbotFovDynamic = { 2 };
+        int aimbotKey = { 0 };
+        int aimbotBone = { 0 };
+        bool aimbotEnabled{ 0 };
+        bool teamCheck{ 0 };
+        bool visCheck{ 0 };
+        bool dynamicTarget{ 0 };
+        float distanceScaleFactor{ 0.500f };
 
-	bool skeletonESP = true;
-	bool headESP = true;
-	bool nameESP = true;
-	
-}config;
+    } aim;
+
+    struct Visuals {
+        bool drawFov{ false };
+        bool drawAimPoint{ false };
+    } visuals;
+
+    struct ESP {
+        bool enable{ false };
+        bool skeleton{ true };
+        bool name{ true };
+        bool headSpot{ false };
+        bool health{ false };
+    } esp;
+
+private:
+    std::filesystem::path path;
+    std::vector<std::string> configs;
+};
+
+inline std::unique_ptr<Config> config;

@@ -1,5 +1,7 @@
 #include "../cheat.hpp"
 
+#include "../utilities/utilities.hpp"
+
 ImColor enemyColor = ImColor( 227, 83, 70 );
 
 ImColor teamColor = ImColor( 171, 216, 237 );
@@ -23,88 +25,85 @@ void renderBones( std::shared_ptr<sdk::basePlayer> player, ImColor color )
 	}
 }
 
-void cheat::renderESP( )
+void renderBox( std::shared_ptr<sdk::basePlayer> player, ImColor color )
 {
-	std::lock_guard<std::mutex> lock( global::cacheMutex );
+    vector3 headPos = player->boneList( )[ head ].position;
+    vector3 originPos = player->getPosition( );
 
-	if ( !draw )
-		return;
+    vector3 screenHead = cheat::worldToScreen( &headPos );
+    vector3 screenOrigin = cheat::worldToScreen( &originPos );
 
-	vector2 center = { menu::screenSize.x / 2, menu::screenSize.y / 2 };
+    float height = screenOrigin.y - screenHead.y;
+    float width = height / 2.0f;
 
-	if ( config.drawFov )
-		draw->AddCircle( { ( float )center.x, ( float )center.y }, config.aimbotFov / 2, ImColor( 255, 255, 255 ) );
+    draw->AddRect( { screenHead.x - 25.f, screenHead.y }, { screenHead.x + width, screenHead.y + height }, color );
+}
 
-	if ( config.drawAimPoint && cheat::aimPoint.x != 0 && cheat::aimPoint.y != 0 )
-		draw->AddRectFilled( { cheat::aimPoint.x,  cheat::aimPoint.y }, { cheat::aimPoint.x + 6,  cheat::aimPoint.y + 6 }, ImColor( 125, 125, 255 ) );
+void cheat::renderESP( ) 
+{
+    std::lock_guard<std::mutex> lock( global::cacheMutex );
 
-	if ( config.drawAimPoint && cheat::targetPlayer && cheat::targetPlayer->isValid( ) && cheat::targetPlayer != NULL )
-		draw->AddText( { 1080, 720 }, ImColor( 255, 255, 255 ), cheat::targetPlayer->getName( ).c_str( ) );
+    if ( !draw || !config )
+        return;
 
-	for ( auto player : cheat::players )
-	{
-		if ( player == global::localPlayer )
-			continue;
+    // Initialize colors
+    ImColor enemyColor( 255, 0, 0 ); // Example enemy color
+    ImColor friendColor( 0, 255, 0 ); // Example friend color
+    ImColor teamColor( 0, 0, 255 ); // Example team color
 
-		if ( player->boneList( ).empty( ) )
-			continue;
+    vector2 center = { menu::screenSize.x / 2, menu::screenSize.y / 2 };
 
-		if ( player->getHealth( ) <= 0 || player->getHealth( ) > 100 )
-			continue;
+    const bool drawAimPoint = config->visuals.drawAimPoint;
 
-		if ( player->getTeam( ) == global::localPlayer->getTeam( ) && config.teamCheck )
-			continue;
+    for ( auto& player : cheat::players ) {
+        if ( player->getAddress( ) == global::localPlayer->getAddress( ) || player->getHealth( ) <= 0 || player->getHealth( ) > 100 )
+            continue;
 
-		vector3 playerPos = player->getPosition( );
-		if ( math::isEqual( playerPos, global::localPos ) )
-			continue;
+        if ( player->getTeam( ) == global::localPlayer->getTeam( ) && config->aim.teamCheck )
+            continue;
 
-		vector3 screenPos = cheat::worldToScreen( &playerPos );
+        vector3 playerPos = player->getPosition( );
+        if ( math::isEqual( playerPos, global::localPos ) )
+            continue;
 
-		vector3 headPos = cheat::worldToScreen( &player->boneList( )[ BONEINDEX::head ].position );
+        vector3 screenPos = cheat::worldToScreen( &playerPos );
 
-		if ( !math::isInsideScreen( headPos ) )
-			continue;
+        vector3 headPos = cheat::worldToScreen( &player->boneList( )[ BONEINDEX::head ].position );
 
-		bool isFriend = cheat::isFriend( player->getAddress( ) );
-		
-		if ( screenPos.z >= 0.01f )
-		{
-			if ( isFriend )
-			{
-				if ( config.nameESP )
-					draw->AddText( { screenPos.x, screenPos.y }, friendColor, player->getName( ).c_str( ) );
+        if ( !math::isInsideScreen( headPos ) || screenPos.z < 0.01f )
+            continue;
 
-				if ( config.headESP )
-					draw->AddCircle( { headPos.x, headPos.y }, 4, friendColor, 30 );
+        const ImColor& textColor = ( cheat::isFriend( player->getAddress( ) ) ? friendColor :
+            ( player->getTeam( ) == global::localPlayer->getTeam( ) && !config->aim.teamCheck ? teamColor : enemyColor ) );
 
-				if ( config.skeletonESP )
-					renderBones( player, friendColor );
-			}
-			else if ( player->getTeam( ) == global::localPlayer->getTeam( ) && !config.teamCheck )
-			{
-				if ( config.nameESP )
-					draw->AddText( { screenPos.x, screenPos.y }, teamColor, player->getName( ).c_str( ) );
+        if ( drawAimPoint && cheat::aimPoint.x != 0 && cheat::aimPoint.y != 0 )
+            draw->AddRectFilled( { cheat::aimPoint.x, cheat::aimPoint.y }, { cheat::aimPoint.x + 6, cheat::aimPoint.y + 6 }, ImColor( 125, 125, 255 ) );
 
-				if ( config.headESP )
-					draw->AddCircle( { headPos.x, headPos.y }, 4, teamColor, 30 );
+        if ( config->esp.name )
+            draw->AddText( { screenPos.x, screenPos.y }, textColor, player->getName( ).c_str( ) );
 
-				if ( config.skeletonESP )
-					renderBones( player, teamColor );
-			}
-			else
-			{
-				if ( config.nameESP )
-					draw->AddText( { screenPos.x, screenPos.y }, enemyColor, player->getName( ).c_str( ) );
+        if ( config->esp.headSpot )
+            draw->AddCircle( { headPos.x, headPos.y }, 4, textColor, 30 );
 
-				if ( config.headESP )
-					draw->AddCircle( { headPos.x, headPos.y }, 4, enemyColor, 30 );
+        if ( config->esp.skeleton )
+            renderBones( player, textColor );
 
-				if ( config.skeletonESP )
-					renderBones( player, enemyColor );
-			}
-		}
-	}
+        if ( config->visuals.drawFov && !cheat::isFriend( player->getAddress( ) ) )
+        {
+            vector3 playerBone = cheat::worldToScreen( &player->boneList( )[ utilities::getBone( ) ].position );
+            double distToCenter = utilities::distance( playerBone.x, playerBone.y, menu::screenSize.x / 2, menu::screenSize.y / 2 );
+            double distanceToPlayer = utilities::distance( global::localPlayer->getPosition( ).x, global::localPlayer->getPosition( ).y, player->getPosition( ).x, player->getPosition( ).y );
+
+            // Scale the dynamic FOV based on the distance
+            float scaledDynamicFOV = config->aim.aimbotFovDynamic * pow( distanceToPlayer, config->aim.distanceScaleFactor );
+
+            if ( distToCenter <= scaledDynamicFOV )
+            {
+                draw->AddCircle( { playerBone.x, playerBone.y }, scaledDynamicFOV, ImColor( 255, 255, 255 ) );
+                draw->AddText( { playerBone.x, playerBone.y }, ImColor( 255, 255, 255 ), std::to_string( scaledDynamicFOV ).c_str( ) );
+            }
+        }
+    }
 }
 
 vector3 cheat::worldToScreen( vector3* v )

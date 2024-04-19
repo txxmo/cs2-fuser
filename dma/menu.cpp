@@ -1,6 +1,7 @@
 #include "ImGui/ImGui.h"
 #include "ImGui/imgui_impl_dx9.h"
 #include "ImGui/imgui_impl_win32.h"
+#include "ImGui//imgui_stdlib.h"
 
 #include "menu.h"
 #include "globals.h"
@@ -12,7 +13,7 @@
 class initWindow {
 public:
     const char* window_title = "Tomo DMA External";
-    ImVec2 window_size{ 450, 260 };
+    ImVec2 window_size{ 410, 460 };
     
     DWORD window_flags = ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
 } iw;
@@ -45,6 +46,54 @@ ImDrawList* draw = NULL;
 ImFont* menu::iconFont = nullptr;
 ImVec2 menu::screenSize = { 0, 0 };
 
+void renderConfigs( )
+{
+    static int currentConfig = -1;
+    static std::string buffer;
+
+    auto& configItems = config->getConfigs( );
+
+    if ( static_cast< std::size_t >( currentConfig ) >= configItems.size( ) )
+        currentConfig = -1;
+
+    ImGui::PushItemWidth( -1 );
+    if ( ImGui::InputTextWithHint( "##configname", "config name", &buffer, ImGuiInputTextFlags_EnterReturnsTrue ) ) {
+        if ( currentConfig != -1 )
+            config->rename( currentConfig, buffer.c_str( ) );
+    }
+
+    if ( ImGui::ListBox( "##listbox", &currentConfig, [ ]( void* data, int idx, const char** out_text ) {
+        auto& vector = *static_cast< std::vector<std::string>* >( data );
+        *out_text = vector[ idx ].c_str( );
+        return true;
+        }, &configItems, configItems.size( ), 5 ) && currentConfig != -1 )
+    {
+        buffer = configItems[ currentConfig ];
+    }
+
+    if ( ImGui::Button( "Create config", { -1, 25.0f } ) && !buffer.empty( ) )
+    {
+        config->add( buffer.c_str( ) );
+        buffer.clear( );
+    }
+
+    if ( ImGui::Button( "Load", { -1, 25.0f } ) && currentConfig != -1 )
+        config->load( currentConfig );
+
+    if ( ImGui::Button( "Save", { -1, 25.0f } ) && currentConfig != -1 )
+        config->save( currentConfig );
+
+    if ( ImGui::Button( "Delete", { -1, 25.0f } ) && currentConfig != -1 )
+    {
+        config->remove( currentConfig );
+        if ( static_cast< std::size_t >( currentConfig ) < configItems.size( ) )
+            buffer = configItems[ currentConfig ];
+        else
+            buffer.clear( );
+    }
+    ImGui::PopItemWidth( );
+}
+
 void menu::render()
 {
     std::lock_guard<std::mutex> lock( global::cacheMutex );
@@ -55,37 +104,43 @@ void menu::render()
         ImGui::SetNextWindowBgAlpha(1.0f);
         ImGui::Begin(iw.window_title, &global::active, iw.window_flags);
         {
+            draw = ImGui::GetWindowDrawList( );
+
             if ( ImGui::BeginTabBar( "cheattabs" ) ) 
             {
-                if ( ImGui::BeginTabItem( "aimbot" ) ) 
+                if ( ImGui::BeginTabItem( "main" ) ) 
                 {
-                    static const char* aimbotKeys[ ] = { "mouse 1", "mouse 2", "mouse 3", "mouse 4", "mouse 5" };
-                    ImGui::Text( "keybind" );
-                    if ( ImGui::BeginCombo( "##aimbotKeyCombo", aimbotKeys[ config.aimbotKey ] ) ) // ##aimbotKeyCombo is a unique identifier for the combo box
-                    {
-                        for ( int i = 0; i < IM_ARRAYSIZE( aimbotKeys ); i++ )
-                        {
-                            const bool isSelected = ( config.aimbotKey == i );
-                            if ( ImGui::Selectable( aimbotKeys[ i ], isSelected ) )
-                                config.aimbotKey = i;
+                    ImGui::Checkbox( "Visible check (slow)", &config->aim.visCheck );
+                    if ( ImGui::IsItemHovered( ) )
+                        ImGui::SetTooltip( "Uses spotted check" );
 
-                            // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
+                    // Aimbot settings
+                    ImGui::Text( "Aimbot" );
+                    static const char* aimbotKeys[ ] = { "mouse 1", "mouse 2", "mouse 3", "mouse 4", "mouse 5" };
+                    static int aimbotTempKey = 0;
+                    if ( ImGui::BeginCombo( "##aimbotKeyCombo", aimbotKeys[ aimbotTempKey ] ) ) {
+                        for ( int i = 0; i < IM_ARRAYSIZE( aimbotKeys ); i++ ) {
+                            const bool isSelected = ( aimbotTempKey == i );
+                            if ( ImGui::Selectable( aimbotKeys[ i ], isSelected ) )
+                                aimbotTempKey = i;
+
                             if ( isSelected )
                                 ImGui::SetItemDefaultFocus( );
                         }
 
                         ImGui::EndCombo( );
                     }
+                    config->aim.aimbotKey = aimbotTempKey;
 
                     static const char* aimbotBones[ ] = { "head", "neck", "chest", "pelvis" };
                     ImGui::Text( "target bone" );
-                    if ( ImGui::BeginCombo( "##aimbotBoneCombo", aimbotBones[ config.aimbotBone ] ) ) // ##aimbotKeyCombo is a unique identifier for the combo box
+                    if ( ImGui::BeginCombo( "##aimbotBoneCombo", aimbotBones[ config->aim.aimbotBone ] ) ) // ##aimbotKeyCombo is a unique identifier for the combo box
                     {
                         for ( int i = 0; i < IM_ARRAYSIZE( aimbotBones ); i++ )
                         {
-                            const bool isSelected = ( config.aimbotBone == i );
+                            const bool isSelected = ( config->aim.aimbotBone == i );
                             if ( ImGui::Selectable( aimbotBones[ i ], isSelected ) )
-                                config.aimbotBone = i;
+                                config->aim.aimbotBone = i;
 
                             // Set the initial focus when opening the combo (scrolling + keyboard navigation focus)
                             if ( isSelected )
@@ -96,69 +151,89 @@ void menu::render()
                     }
 
                     ImGui::Text( "speed" );
-                    ImGui::SliderInt( "##aimbotspeed", &config.aimbotSpeed, 1, 30 );
+                    ImGui::SliderInt( "##aimbotspeed", &config->aim.aimbotSpeed, 1, 30 );
 
                     ImGui::Text( "smoothing factor" );
-                    ImGui::SliderInt( "##aimbotsmooth", &config.aimbotSmooth, 1, 30 );
+                    ImGui::SliderInt( "##aimbotsmooth", &config->aim.aimbotSmooth, 1, 30 );
 
                     ImGui::Text( "fov" );
-                    ImGui::SliderInt( "##aimbotfov", &config.aimbotFov, 0, 1000 );
-
-                    ImGui::Checkbox( "draw fov", &config.drawFov ); ImGui::SameLine( );
-                    ImGui::Checkbox( "draw aim point", &config.drawAimPoint );
-                    ImGui::EndTabItem( );
-                }
-
-                
-                if ( ImGui::BeginTabItem( "esp" ) ) 
-                {
-                    ImGui::Checkbox( "show esp window", &visualsWindowSettings::isVisible );
-                    ImGui::Checkbox( "name esp", &config.nameESP );
-                    ImGui::Checkbox( "skeleton esp", &config.skeletonESP );
-                    ImGui::Checkbox( "head circle", &config.headESP );
-                    ImGui::EndTabItem( );
-                }
-
-                
-                if ( ImGui::BeginTabItem( "misc" ) ) 
-                {
-                    ImGui::Checkbox( "team check", &config.teamCheck );
+                    ImGui::SliderInt( "##aimbotfov2", &config->aim.aimbotFovDynamic, 0, 20 );
                     if ( ImGui::IsItemHovered( ) )
-                        ImGui::SetTooltip( "option is applied globally." );
+                        ImGui::SetTooltip( "fov is dynamic and is around the player, not the crosshair. \nenable show fov for visualization of it." );
 
-                    ImGui::Checkbox( "show debug window", &visualsWindowSettings::debugWindow );
+                    ImGui::Text( "distance scale" );
+                    ImGui::SliderFloat( "##distanescale", &config->aim.distanceScaleFactor, 0.001f, 0.600f );
+
+                    // ESP settings
+                    ImGui::Separator( );
+                    ImGui::Text( "ESP" );
+                    ImGui::Checkbox( "Name ESP", &config->esp.name );
+                    ImGui::Checkbox( "Skeleton ESP", &config->esp.skeleton );
+                    ImGui::Checkbox( "Head Circle", &config->esp.headSpot );
+
+                    // Miscellaneous settings
+                    ImGui::Separator( );
+                    ImGui::Text( "Miscellaneous" );
+                    ImGui::Checkbox( "Team Check", &config->aim.teamCheck );
+                    if ( ImGui::IsItemHovered( ) )
+                        ImGui::SetTooltip( "Option is applied globally." );
+
+                    ImGui::Checkbox( "Show Debug Window", &visualsWindowSettings::debugWindow );
+
+                    ImGui::Checkbox( "Draw FOV", &config->visuals.drawFov );
+                    ImGui::Checkbox( "Draw Aim Point", &config->visuals.drawAimPoint );
+
 
                     ImGui::EndTabItem( );
                 }
 
-                if ( ImGui::BeginTabItem( "players" ) )
+                if ( ImGui::BeginTabItem( "configs" ) )
                 {
+                    renderConfigs( );
+
+                    ImGui::EndTabItem( );
+                }
+
+                if ( ImGui::BeginTabItem( "players" ) ) 
+                {
+                    ImGui::Columns( 4, nullptr, false );
+
                     ImGui::Text( "Name" );
-                    ImGui::SameLine( 150 );
+                    ImGui::NextColumn( );
+
                     ImGui::Text( "Team" );
-                    ImGui::SameLine( 240 );
+                    ImGui::NextColumn( );
+
                     ImGui::Text( "Health" );
-                    ImGui::SameLine( 330 );
-                    ImGui::Text( "Force Friendly" );
+                    ImGui::NextColumn( );
+
+                    ImGui::Text( "Friend (?)" );
+                    ImGui::NextColumn( );
 
                     ImGui::Separator( );
 
                     for ( const auto& player : cheat::players ) {
 
+                        if ( player->getAddress( ) == global::localPlayer->getAddress( ) )
+                            continue;
+
                         ImGui::Text( player->getName( ).c_str( ) );
-                        ImGui::SameLine( 150 );
+                        ImGui::NextColumn( );
+
                         ImGui::Text( "%s", player->getTeamString( ).c_str( ) );
-                        ImGui::SameLine( 240 );
+                        ImGui::NextColumn( );
+
                         ImGui::Text( "%d", player->getHealth( ) );
-                        ImGui::SameLine( 330 );
-                        
+                        ImGui::NextColumn( );
+
                         bool isFriend = std::find( cheat::friends.begin( ), cheat::friends.end( ), player->getAddress( ) ) != cheat::friends.end( );
                         if ( ImGui::Checkbox( ( "##Checkbox" + std::to_string( player->getAddress( ) ) ).c_str( ), &isFriend ) ) {
                             if ( isFriend )
                                 cheat::friends.push_back( player->getAddress( ) );
-                            else 
+                            else
                                 cheat::friends.erase( std::remove( cheat::friends.begin( ), cheat::friends.end( ), player->getAddress( ) ), cheat::friends.end( ) );
                         }
+                        ImGui::NextColumn( );
                     }
 
                     ImGui::EndTabItem( );
@@ -168,28 +243,6 @@ void menu::render()
             }
         }
         ImGui::End();
-    }
-
-    if ( visualsWindowSettings::isVisible )
-    {
-        ImGui::PushStyleColor( ImGuiCol_WindowBg, ImVec4( 0.0f, 0.0f, 0.0f, 1.0f ) );
-        ImGui::Begin( "ESP Window", &global::active, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove );
-        {
-            if ( !visualsWindowSettings::initilized )
-            {
-                draw = ImGui::GetWindowDrawList( );
-                visualsWindowSettings::initilized = true;
-            }
-
-            if ( visualsWindowSettings::initilized )
-            {
-                ImGui::SetWindowSize( ImVec2( static_cast< float >( menu::screenSize.x ), static_cast< float >( menu::screenSize.y ) ) );
-
-                ImGui::SetWindowPos( { 0, 0 } );
-            }
-        }
-        ImGui::End( );
-        ImGui::PopStyleColor( );
     }
 
     ImGui::SetNextWindowSize( { 200, 150 } );

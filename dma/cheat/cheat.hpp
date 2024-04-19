@@ -24,7 +24,6 @@ namespace cheat
 	void init( );
 	vector3 worldToScreen( vector3* v );
 	void renderESP( );
-	void renderMenu( );
 
 	inline vector2 aimPoint;
 	inline std::shared_ptr<sdk::basePlayer> targetPlayer;
@@ -69,7 +68,6 @@ public:
 	void execute( );
 };
 
-extern std::shared_ptr<cheatFunction> updatePlayers;
 extern std::shared_ptr<cheatFunction> cachePlayers;
 extern std::shared_ptr<cheatFunction> updateViewMatrix;
 

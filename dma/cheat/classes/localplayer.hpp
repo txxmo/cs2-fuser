@@ -5,14 +5,15 @@
 #include "../../DMALibrary/Memory/Memory.h"
 
 #include "../cheat.hpp"
+#include "../offsets.hpp"
 
 namespace sdk
 {
 	class localPlayer
 	{
-		uintptr_t address = 0x1912578;
+		uintptr_t address = offsets::dwLocalPlayerController;
 
-		uintptr_t pawn = 0x17371A8;
+		uintptr_t pawn = offsets::dwLocalPlayerPawn;
 
 	public:
 
